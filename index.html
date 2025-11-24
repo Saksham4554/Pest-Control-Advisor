@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pest Control Advisor Chatbot - Shailja Kumari</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a7c59; /* Vibrant forest green */
+            --secondary-color: #8ab17d; /* Lively lime green */
+            --accent-color: #f4a261; /* Warm coral orange */
+            --light-gray: #fefae0; /* Creamy off-white */
+            --dark-gray: #2d2d2a; /* Deep charcoal */
+            --text-color: #1f271b; /* Rich dark green-gray */
+            --success-color: #76c893; /* Bright success green */
+            --box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--light-gray), #e0e6d8);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .chatbot-container {
+            width: 450px;
+            height: 650px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: fade-in 0.5s ease;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        .chat-header i {
+            margin-right: 12px;
+            font-size: 2.2rem;
+            animation: bug-bounce 1.5s infinite;
+        }
+
+        .chat-header span {
+            animation: text-glow 2s infinite alternate;
+        }
+
+        @keyframes bug-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes text-glow {
+            0% { text-shadow: 0 0 5px var(--accent-color); }
+            100% { text-shadow: 0 0 15px var(--accent-color); }
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+
+        .message {
+            margin: 12px 0;
+            padding: 14px 20px;
+            border-radius: 15px;
+            max-width: 85%;
+            animation: slide-in 0.4s ease;
+            position: relative;
+        }
+
+        .user-message {
+            background: var(--accent-color);
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .bot-message {
+            background: var(--secondary-color);
+            color: var(--text-color);
+            align-self: flex-start;
+        }
+
+        .bot-message strong {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        @keyframes slide-in {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 10px;
+            color: var(--text-color);
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-6px); }
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            margin-right: 15px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .chat-input input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px rgba(74, 124, 89, 0.3);
+            outline: none;
+        }
+
+        .chat-input button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .chat-input button:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .chat-input button i {
+            animation: plane-fly 1.5s infinite;
+        }
+
+        @keyframes plane-fly {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <i class="fas fa-bug"></i> <span>Pest Control Advisor</span>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="message bot-message">
+                Hey! Name a pest (e.g., ants) for fast tips!
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="pestInput" placeholder="Type pest name..." required>
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        const chatBody = document.getElementById('chatBody');
+        const pestInput = document.getElementById('pestInput');
+
+        function addMessage(text, isUser = false) {
+            const message = document.createElement('div');
+            message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            message.innerHTML = text;
+            chatBody.appendChild(message);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.className = 'typing-indicator';
+            indicator.innerHTML = '<span></span><span></span><span></span>';
+            indicator.style.display = 'block';
+            chatBody.appendChild(indicator);
+            chatBody.scrollTop = chatBody.scrollHeight;
+            return indicator;
+        }
+
+        function truncateToSentence(text, maxWords = 10) {
+            const words = text.split(' ');
+            if (words.length <= maxWords) return text;
+            return words.slice(0, maxWords).join(' ') + '.';
+        }
+
+        function sendMessage() {
+            const pest = pestInput.value.trim();
+            if (!pest) return;
+
+            addMessage(pest, true);
+            pestInput.value = '';
+            const typingIndicator = showTypingIndicator();
+
+            setTimeout(() => {
+                fetch('http://127.0.0.1:5000/get_advice', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pest })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    typingIndicator.remove();
+                    if (data.error) {
+                        addMessage(`Oops! ${data.error}`);
+                        return;
+                    }
+                    if (!data.advice || Object.keys(data.advice).length === 0) {
+                        addMessage('No tips found. Try another pest!');
+                        return;
+                    }
+                    // Use first control method and full prevention, truncated to complete sentences
+                    const firstMethod = data.advice.methods[0];
+                    const controlText = `${firstMethod.name}: ${truncateToSentence(firstMethod.description)}`;
+                    const preventText = truncateToSentence(data.advice.prevention || 'Not specified');
+                    const adviceText = `
+                        Quick fix for ${pest}:<br>
+                        <ul style="list-style-type: disc; padding-left: 20px;">
+                            <li><strong>Control:</strong> ${controlText}</li>
+                            <li><strong>Prevent:</strong> ${preventText}</li>
+                        </ul>
+                    `;
+                    addMessage(adviceText);
+                })
+                .catch(error => {
+                    typingIndicator.remove();
+                    addMessage(`Error: ${error.message}`);
+                });
+            }, 800);
+        }
+
+        pestInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>
